@@ -21,15 +21,30 @@ func init():
 	playerDeck = deck.slice(0,26,1)
 	oponentDeck = deck.slice(26,52,1)
 	print("deck", deck)
-	print("playerDeck", playerDeck)
-	print("oponentDeck", oponentDeck)
+	print("playerDeck ", playerDeck.size(), playerDeck[0], playerDeck[-1])
+	print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
 	
-	get_node("Card1").setValue(playerDeck.pop_front())
-	get_node("Card2").setValue(playerDeck.pop_front())
-	get_node("Card3").setValue(playerDeck.pop_front())
-	get_node("Card4").setValue(playerDeck.pop_front())
-	get_node("Card5").setValue(oponentDeck.pop_front())
-	get_node("Card6").setValue(oponentDeck.pop_front())
-	get_node("Card7").setValue(oponentDeck.pop_front())
-	get_node("Card8").setValue(oponentDeck.pop_front())
+	for i in range(1, 6):
+		get_node("Card" + str(i)).setValue(playerDeck.pop_front())
+		get_node("Card" + str(i)).visible = true
+	for i in range(6, 11):
+		get_node("Card" + str(i)).setValue(oponentDeck.pop_front())
+		get_node("Card" + str(i)).visible = true
+	
+	print("playerDeck ", playerDeck.size(), playerDeck[0], playerDeck[-1])
+	print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
 
+func _input(ev):
+	if ev is InputEventKey and ev.pressed:
+		if(ev.keycode == KEY_Q):
+			$Card9.setValue(get_node("Card1").val)
+			$Card1.visible = false
+		if(ev.keycode == KEY_W):
+			$Card9.setValue(get_node("Card2").val)
+		if(ev.keycode == KEY_E):
+			$Card10.setValue(get_node("Card3").val)
+		if(ev.keycode == KEY_R):
+			$Card10.setValue(get_node("Card4").val)
+		# restart game
+		if(ev.keycode == KEY_SPACE):
+			init()

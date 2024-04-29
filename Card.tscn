@@ -11,6 +11,7 @@ position = Vector2(100, 420)
 script = ExtResource("1_qeltq")
 
 [node name="Spade" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("2_a42kj")
 hframes = 5
 vframes = 3

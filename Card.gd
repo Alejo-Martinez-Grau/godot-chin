@@ -6,7 +6,7 @@ var val = null
 # rank number 2-15
 func setValue(suitRank: Array):
 	val = suitRank
-	print(val)
+	print([val[0],val[1]+1])
 	get_node("Spade").visible = false
 	get_node("Diamond").visible = false
 	get_node("Heart").visible = false
@@ -21,6 +21,4 @@ func setValue(suitRank: Array):
 	if(suitRank[0] == "C"):
 		active_card = get_node("Club")
 	active_card.visible = true
-	active_card.frame = suitRank[1] - 1
-	if(suitRank[1] == 14):
-		active_card.frame = 0
+	active_card.frame = suitRank[1]
