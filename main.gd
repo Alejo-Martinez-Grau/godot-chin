@@ -36,15 +36,18 @@ func init():
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
-		if(ev.keycode == KEY_Q):
+		if(ev.is_action_pressed("selectCard1")):
 			$Card9.setValue(get_node("Card1").val)
 			$Card1.visible = false
-		if(ev.keycode == KEY_W):
+		if(ev.is_action_pressed("selectCard2")):
 			$Card9.setValue(get_node("Card2").val)
-		if(ev.keycode == KEY_E):
+			$Card2.visible = false
+		if(ev.is_action_pressed("selectCard3")):
 			$Card10.setValue(get_node("Card3").val)
-		if(ev.keycode == KEY_R):
+			$Card3.visible = false
+		if(ev.is_action_pressed("selectCard4")):
 			$Card10.setValue(get_node("Card4").val)
+			$Card4.visible = false
 		# restart game
 		if(ev.keycode == KEY_SPACE):
 			init()
