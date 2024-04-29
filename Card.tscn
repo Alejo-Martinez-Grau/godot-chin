@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://dj454sewaulhq"]
+
+[ext_resource type="Script" path="res://Card.gd" id="1_qeltq"]
+[ext_resource type="Texture2D" uid="uid://omj164ydvnsa" path="res://spade.png" id="2_a42kj"]
+[ext_resource type="Texture2D" uid="uid://b8g403sxu3agf" path="res://diamond.png" id="3_l8cl6"]
+[ext_resource type="Texture2D" uid="uid://7abkhr24veo5" path="res://heart.png" id="4_a1sdn"]
+[ext_resource type="Texture2D" uid="uid://bb7my5ji7bffm" path="res://club.png" id="5_rjdk1"]
+
+[node name="Card" type="Node2D"]
+position = Vector2(100, 420)
+script = ExtResource("1_qeltq")
+
+[node name="Spade" type="Sprite2D" parent="."]
+texture = ExtResource("2_a42kj")
+hframes = 5
+vframes = 3
+
+[node name="Diamond" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_l8cl6")
+hframes = 5
+vframes = 3
+
+[node name="Heart" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_a1sdn")
+hframes = 5
+vframes = 3
+
+[node name="Club" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_rjdk1")
+hframes = 5
+vframes = 3
