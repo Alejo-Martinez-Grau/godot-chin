@@ -35,16 +35,16 @@ func init():
 	print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
 
 func _process(_delta):
-	if(Input.is_action_pressed("selectCard1")):
+	if(Input.is_action_pressed("selectCard1") && $Card1.visible):
 		print("card1")
 		setCard($Card1)
-	if(Input.is_action_pressed("selectCard2")):
+	if(Input.is_action_pressed("selectCard2") && $Card2.visible):
 		print("card2")
 		setCard($Card2)
-	if(Input.is_action_pressed("selectCard3")):
+	if(Input.is_action_pressed("selectCard3") && $Card3.visible):
 		print("card3")
 		setCard($Card3)
-	if(Input.is_action_pressed("selectCard4")):
+	if(Input.is_action_pressed("selectCard4") && $Card4.visible):
 		print("card4")
 		setCard($Card4)
 
