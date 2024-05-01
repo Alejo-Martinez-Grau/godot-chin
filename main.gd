@@ -34,20 +34,31 @@ func init():
 	print("playerDeck ", playerDeck.size(), playerDeck[0], playerDeck[-1])
 	print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
 
+func _process(_delta):
+	if(Input.is_action_pressed("selectCard1")):
+		print("card1")
+		setCard($Card1)
+	if(Input.is_action_pressed("selectCard2")):
+		print("card2")
+		setCard($Card2)
+	if(Input.is_action_pressed("selectCard3")):
+		print("card3")
+		setCard($Card3)
+	if(Input.is_action_pressed("selectCard4")):
+		print("card4")
+		setCard($Card4)
+
+func setCard(cardNode: Node):
+	if(Input.is_action_pressed("ui_left")):
+		$Card9.setValue(cardNode.val)
+		cardNode.visible = false
+	elif(Input.is_action_pressed("ui_right")):
+		$Card10.setValue(cardNode.val)
+		cardNode.visible = false
+
+
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
-		if(ev.is_action_pressed("selectCard1")):
-			$Card9.setValue(get_node("Card1").val)
-			$Card1.visible = false
-		if(ev.is_action_pressed("selectCard2")):
-			$Card9.setValue(get_node("Card2").val)
-			$Card2.visible = false
-		if(ev.is_action_pressed("selectCard3")):
-			$Card10.setValue(get_node("Card3").val)
-			$Card3.visible = false
-		if(ev.is_action_pressed("selectCard4")):
-			$Card10.setValue(get_node("Card4").val)
-			$Card4.visible = false
 		# restart game
 		if(ev.keycode == KEY_SPACE):
 			init()
