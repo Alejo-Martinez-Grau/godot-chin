@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dj454sewaulhq"]
+[gd_scene load_steps=8 format=3 uid="uid://dj454sewaulhq"]
 
 [ext_resource type="Script" path="res://Card.gd" id="1_qeltq"]
 [ext_resource type="Texture2D" uid="uid://omj164ydvnsa" path="res://spade.png" id="2_a42kj"]
@@ -6,9 +6,36 @@
 [ext_resource type="Texture2D" uid="uid://7abkhr24veo5" path="res://heart.png" id="4_a1sdn"]
 [ext_resource type="Texture2D" uid="uid://bb7my5ji7bffm" path="res://club.png" id="5_rjdk1"]
 
+[sub_resource type="Theme" id="Theme_tkye7"]
+/styles/Test = null
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55ky6"]
+bg_color = Color(0.757009, 0.75701, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
 [node name="Card" type="Node2D"]
 position = Vector2(100, 420)
 script = ExtResource("1_qeltq")
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -98.0
+offset_right = 63.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.05, 1.05)
+theme = SubResource("Theme_tkye7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_55ky6")
 
 [node name="Spade" type="Sprite2D" parent="."]
 visible = false
