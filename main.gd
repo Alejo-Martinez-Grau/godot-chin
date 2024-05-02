@@ -36,15 +36,7 @@ func init():
 	#print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
 
 func _process(_delta):
-	if(Input.is_action_pressed("selectCard1") && $Card1.visible):
-		#get_node("Card1/Panel").visible = true
-		setCard($Card1)
-	if(Input.is_action_pressed("selectCard2") && $Card2.visible):
-		setCard($Card2)
-	if(Input.is_action_pressed("selectCard3") && $Card3.visible):
-		setCard($Card3)
-	if(Input.is_action_pressed("selectCard4") && $Card4.visible):
-		setCard($Card4)
+	handleInputs()
 
 func setCard(cardNode: Node):
 	if(Input.is_action_pressed("ui_left")):
@@ -54,6 +46,15 @@ func setCard(cardNode: Node):
 		$Card10.setValue(cardNode.val)
 		cardNode.visible = false
 
+func handleInputs():
+	var cards = ["Card1", "Card2","Card3","Card4"]
+	
+	for card in cards:
+		if(Input.is_action_pressed("select" + card) && get_node(card).visible):
+			get_node(card + "/Panel").visible = true
+			setCard(get_node(card))
+		else:
+			get_node(card + "/Panel").visible = false
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
