@@ -39,10 +39,10 @@ func _process(_delta):
 	handleInputs()
 
 func setCard(cardNode: Node):
-	if(Input.is_action_pressed("ui_left")):
+	if(Input.is_action_pressed("ui_left") && ((abs($Card9.val[1] - cardNode.val[1]) == 1) || abs($Card9.val[1] - cardNode.val[1]) == 12)):
 		$Card9.setValue(cardNode.val)
 		cardNode.visible = false
-	elif(Input.is_action_pressed("ui_right")):
+	elif(Input.is_action_pressed("ui_right") && ((abs($Card10.val[1] - cardNode.val[1]) == 1) || abs($Card10.val[1] - cardNode.val[1]) == 12)):
 		$Card10.setValue(cardNode.val)
 		cardNode.visible = false
 
