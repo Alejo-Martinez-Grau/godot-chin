@@ -72,9 +72,10 @@ func handleInputs():
 					updateCounter()
 					return
 				else:
+					checkWinConditions()
 					#TODO: WIN CONDITION
-					print("YOU WIN")
-					get_tree().paused = true
+					#print("YOU WIN")
+					#get_tree().paused = true
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
@@ -108,7 +109,6 @@ func isPlayableRightCard(cardNode):
 func handleAI():
 	if($CPUTimer.is_stopped()):
 		for i in range(5, 9):
-			#print(i)
 			if(get_node("Card" + str(i)).visible && isPlayableLeftCard(get_node("Card" + str(i))) ):
 				print("La AI juega el: ", get_node("Card" + str(i)).val, "sobre: ", $Card9.val)
 				setCard(get_node("Card" + str(i)), true)
@@ -128,14 +128,40 @@ func handleAI():
 					$CPUTimer.start()
 					return
 				else:
-					#TODO: WIN CONDITION
-					print("CPU WIN")
-					get_tree().paused = true
+					checkWinConditions()
+					##TODO: WIN CONDITION
+					#print("CPU WIN")
+					#get_tree().paused = true
 
 func _on_timer_timeout():
 	print($MovementsTimer.get_time_left()) # Replace with function body.
 
 func _on_movements_timer_timeout():
-		$Card9.setValue(oponentDeck.pop_front())
+		checkWinConditions()
+		if(oponentDeck):
+			$Card9.setValue(oponentDeck.pop_front())
+		else:
+			for i in range(5, 9):
+				if(get_node("Card" + str(i)).visible):
+					$Card9.setValue(get_node("Card" + str(i)).val)
+					get_node("Card" + str(i)).visible = false
+					$CPUTimer.start()
+					return
 		$Card10.setValue(playerDeck.pop_front())
 		updateCounter()
+
+func checkWinConditions():
+	if(!playerDeck &&
+	!$Card1.visible &&
+	!$Card2.visible &&
+	!$Card3.visible &&
+	!$Card3.visible):
+		print("PLAYER WIN")
+		get_tree().paused = true
+	elif(!oponentDeck &&
+	!$Card5.visible &&
+	!$Card6.visible &&
+	!$Card7.visible &&
+	!$Card8.visible):
+		print("CPU WIN")
+		get_tree().paused = true
