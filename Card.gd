@@ -6,7 +6,7 @@ var val = null
 # rank number 2-15
 func setValue(suitRank: Array):
 	val = suitRank
-	print([val[0],val[1]])
+	#print([val[0],val[1]])
 	get_node("Spade").visible = false
 	get_node("Diamond").visible = false
 	get_node("Heart").visible = false

@@ -35,3 +35,37 @@ position = Vector2(300, 300)
 
 [node name="Card10" parent="." instance=ExtResource("1_gfoq1")]
 position = Vector2(500, 300)
+
+[node name="PlayerCounter" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 250.0
+offset_right = 143.0
+offset_bottom = 273.0
+scale = Vector2(1.2, 1.2)
+size_flags_horizontal = 4
+text = "Player cards: "
+
+[node name="CardCounter" type="Label" parent="PlayerCounter"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 30.0
+offset_right = 46.0
+offset_bottom = 53.0
+scale = Vector2(3, 3)
+
+[node name="CPUCounter" type="Label" parent="."]
+offset_left = 650.0
+offset_top = 250.0
+offset_right = 753.0
+offset_bottom = 273.0
+scale = Vector2(1.2, 1.2)
+size_flags_horizontal = 4
+text = "CPU cards: "
+
+[node name="CardCounter" type="Label" parent="CPUCounter"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 30.0
+offset_right = 60.0
+offset_bottom = 53.0
+scale = Vector2(3, 3)
