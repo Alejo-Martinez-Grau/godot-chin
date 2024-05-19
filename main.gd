@@ -10,6 +10,7 @@ var cards = ["Card1", "Card2","Card3","Card4"]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	init()
+
 	pass
 
 func makeDeck():
@@ -21,6 +22,7 @@ func makeDeck():
 	return newDeck
 
 func init():
+	$MovementsTimer.start()
 	$CPUTimer.start(3)
 	$CPUTimer.set_wait_time(difficulty)
 	var deck = makeDeck()
@@ -38,6 +40,7 @@ func init():
 		get_node("Card" + str(i)).setValue(oponentDeck.pop_front())
 		get_node("Card" + str(i)).visible = true
 	updateCounter()
+	get_tree().paused = false
 
 func _process(_delta):
 	checkSpitCondition()
@@ -51,7 +54,7 @@ func setCard(cardNode: Node, isAI: bool = false):
 	elif((Input.is_action_pressed("ui_right") || isAI) && isPlayableRightCard(cardNode)):
 		$Card10.setValue(cardNode.val)
 		cardNode.visible = false
-
+	$MovementsTimer.start()
 
 func handleInputs():
 	for card in cards:
@@ -71,18 +74,17 @@ func handleInputs():
 				else:
 					#TODO: WIN CONDITION
 					print("YOU WIN")
-					pass
-
+					get_tree().paused = true
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
-		if(Input.is_action_pressed("ui_down")):
+		if(Input.is_action_pressed("ui_accept")):
 			if(spitCondition):
 				print("SPIT")
 			else:
 				print("NOT SPIT")
 		# restart game
-		if(ev.keycode == KEY_SPACE):
+		if(ev.keycode == KEY_ENTER):
 			$CPUTimer.stop()
 			init()
 
@@ -125,4 +127,15 @@ func handleAI():
 					updateCounter()
 					$CPUTimer.start()
 					return
+				else:
+					#TODO: WIN CONDITION
+					print("CPU WIN")
+					get_tree().paused = true
 
+func _on_timer_timeout():
+	print($MovementsTimer.get_time_left()) # Replace with function body.
+
+func _on_movements_timer_timeout():
+		$Card9.setValue(oponentDeck.pop_front())
+		$Card10.setValue(playerDeck.pop_front())
+		updateCounter()
