@@ -69,3 +69,6 @@ offset_top = 30.0
 offset_right = 60.0
 offset_bottom = 53.0
 scale = Vector2(3, 3)
+
+[node name="CPUTimer" type="Timer" parent="."]
+one_shot = true

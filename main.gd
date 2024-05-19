@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var difficulty = 1
 var playerDeck = null
 var oponentDeck = null
 var spitCondition = false
@@ -20,6 +21,8 @@ func makeDeck():
 	return newDeck
 
 func init():
+	$CPUTimer.start(3)
+	$CPUTimer.set_wait_time(difficulty)
 	var deck = makeDeck()
 	playerDeck = deck.slice(0,26,1)
 	oponentDeck = deck.slice(26,52,1)
@@ -36,21 +39,19 @@ func init():
 		get_node("Card" + str(i)).visible = true
 	updateCounter()
 
-	#
-	#print("playerDeck ", playerDeck.size(), playerDeck[0], playerDeck[-1])
-	#print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
-
 func _process(_delta):
 	checkSpitCondition()
 	handleInputs()
+	handleAI()
 
-func setCard(cardNode: Node):
-	if(Input.is_action_pressed("ui_left") && ((abs($Card9.val[1] - cardNode.val[1]) == 1) || abs($Card9.val[1] - cardNode.val[1]) == 12)):
+func setCard(cardNode: Node, isAI: bool = false):
+	if((Input.is_action_pressed("ui_left") || isAI) && isPlayableLeftCard(cardNode)):
 		$Card9.setValue(cardNode.val)
 		cardNode.visible = false
-	elif(Input.is_action_pressed("ui_right") && ((abs($Card10.val[1] - cardNode.val[1]) == 1) || abs($Card10.val[1] - cardNode.val[1]) == 12)):
+	elif((Input.is_action_pressed("ui_right") || isAI) && isPlayableRightCard(cardNode)):
 		$Card10.setValue(cardNode.val)
 		cardNode.visible = false
+
 
 func handleInputs():
 	for card in cards:
@@ -82,6 +83,7 @@ func _input(ev):
 				print("NOT SPIT")
 		# restart game
 		if(ev.keycode == KEY_SPACE):
+			$CPUTimer.stop()
 			init()
 
 func checkSpitCondition():
@@ -94,3 +96,33 @@ func checkSpitCondition():
 func updateCounter():
 	$PlayerCounter/CardCounter.set_text(str(playerDeck.size()))
 	$CPUCounter/CardCounter.set_text(str(oponentDeck.size()))
+
+func isPlayableLeftCard(cardNode):
+	return ((abs($Card9.val[1] - cardNode.val[1]) == 1) || abs($Card9.val[1] - cardNode.val[1]) == 12)
+
+func isPlayableRightCard(cardNode):
+	return ((abs($Card10.val[1] - cardNode.val[1]) == 1) || abs($Card10.val[1] - cardNode.val[1]) == 12)
+
+func handleAI():
+	if($CPUTimer.is_stopped()):
+		for i in range(5, 9):
+			#print(i)
+			if(get_node("Card" + str(i)).visible && isPlayableLeftCard(get_node("Card" + str(i))) ):
+				print("La AI juega el: ", get_node("Card" + str(i)).val, "sobre: ", $Card9.val)
+				setCard(get_node("Card" + str(i)), true)
+				$CPUTimer.start()
+				return
+			elif(get_node("Card" + str(i)).visible && isPlayableRightCard(get_node("Card" + str(i))) ):
+				print("La AI juega el: ", get_node("Card" + str(i)).val, "sobre: ", $Card10.val)
+				setCard(get_node("Card" + str(i)), true)
+				$CPUTimer.start()
+				return
+			elif(!get_node("Card" + str(i)).visible):
+				#TODO: la mecanica de sacar una nueva carta se puede refactorear creo
+				if(oponentDeck):
+					get_node("Card" + str(i)).setValue(oponentDeck.pop_front())
+					get_node("Card" + str(i)).visible = true
+					updateCounter()
+					$CPUTimer.start()
+					return
+
