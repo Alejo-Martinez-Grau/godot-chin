@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://40sj8gb6n4xo"]
+[gd_scene load_steps=5 format=3 uid="uid://40sj8gb6n4xo"]
 
 [ext_resource type="PackedScene" uid="uid://dj454sewaulhq" path="res://Card.tscn" id="1_gfoq1"]
 [ext_resource type="Script" path="res://main.gd" id="1_j3id2"]
+[ext_resource type="PackedScene" uid="uid://kepntjkwnxrs" path="res://pause_menu.tscn" id="3_y17pr"]
+[ext_resource type="Script" path="res://pause_menu.gd" id="4_wdd0r"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_j3id2")
@@ -81,5 +83,20 @@ autostart = true
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
+[node name="PauseMenu" parent="." instance=ExtResource("3_y17pr")]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 400.0
+offset_top = 300.0
+offset_right = 400.0
+offset_bottom = 300.0
+size_flags_horizontal = 4
+script = ExtResource("4_wdd0r")
+
 [connection signal="timeout" from="MovementsTimer" to="." method="_on_movements_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="restart" from="PauseMenu" to="." method="_on_pause_menu_restart"]

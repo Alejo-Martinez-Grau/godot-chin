@@ -40,7 +40,7 @@ func init():
 		get_node("Card" + str(i)).setValue(oponentDeck.pop_front())
 		get_node("Card" + str(i)).visible = true
 	updateCounter()
-	get_tree().paused = false
+	unpause()
 
 func _process(_delta):
 	checkSpitCondition()
@@ -75,7 +75,7 @@ func handleInputs():
 					checkWinConditions()
 					#TODO: WIN CONDITION
 					#print("YOU WIN")
-					#get_tree().paused = true
+					#pause()
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
@@ -132,7 +132,7 @@ func handleAI():
 					checkWinConditions()
 					##TODO: WIN CONDITION
 					#print("CPU WIN")
-					#get_tree().paused = true
+					#pause()
 
 func _on_timer_timeout():
 	print($MovementsTimer.get_time_left()) # Replace with function body.
@@ -166,11 +166,24 @@ func checkWinConditions():
 	!$Card3.visible &&
 	!$Card3.visible):
 		print("PLAYER WIN")
-		get_tree().paused = true
+		pause()
 	elif(!oponentDeck &&
 	!$Card5.visible &&
 	!$Card6.visible &&
 	!$Card7.visible &&
 	!$Card8.visible):
 		print("CPU WIN")
-		get_tree().paused = true
+		pause()
+
+func pause():
+	get_tree().paused = true
+	$PauseMenu.show()
+
+func unpause():
+	$PauseMenu.hide()
+	get_tree().paused = false
+
+
+func _on_pause_menu_restart():
+	$CPUTimer.stop()
+	init()
