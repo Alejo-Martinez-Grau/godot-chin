@@ -99,6 +99,7 @@ func checkSpitCondition():
 func updateCounter():
 	$PlayerCounter/CardCounter.set_text(str(playerDeck.size()))
 	$CPUCounter/CardCounter.set_text(str(oponentDeck.size()))
+	checkWinConditions()
 
 func isPlayableLeftCard(cardNode):
 	return ((abs($Card9.val[1] - cardNode.val[1]) == 1) || abs($Card9.val[1] - cardNode.val[1]) == 12)
@@ -147,7 +148,15 @@ func _on_movements_timer_timeout():
 					get_node("Card" + str(i)).visible = false
 					$CPUTimer.start()
 					return
-		$Card10.setValue(playerDeck.pop_front())
+		if(playerDeck):
+			$Card10.setValue(playerDeck.pop_front())
+		else:
+			for i in range(1, 5):
+				if(get_node("Card" + str(i)).visible):
+					$Card10.setValue(get_node("Card" + str(i)).val)
+					get_node("Card" + str(i)).visible = false
+					$CPUTimer.start()
+					return
 		updateCounter()
 
 func checkWinConditions():
