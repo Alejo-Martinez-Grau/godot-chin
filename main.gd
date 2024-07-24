@@ -3,6 +3,7 @@ extends Node2D
 @export var difficulty = 1
 var playerDeck = null
 var oponentDeck = null
+var poolCards = []
 var spitCondition = false
 
 var cards = ["Card1", "Card2","Card3","Card4"]
@@ -10,7 +11,6 @@ var cards = ["Card1", "Card2","Card3","Card4"]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	init()
-
 	pass
 
 func makeDeck():
@@ -28,6 +28,7 @@ func init():
 	var deck = makeDeck()
 	playerDeck = deck.slice(0,26,1)
 	oponentDeck = deck.slice(26,52,1)
+	poolCards = []
 	#print("deck", deck)
 	#print("playerDeck ", playerDeck.size(), playerDeck[0], playerDeck[-1])
 	#print("oponentDeck ", oponentDeck.size(), oponentDeck[0], oponentDeck[-1])
@@ -50,9 +51,11 @@ func _process(_delta):
 func setCard(cardNode: Node, isAI: bool = false):
 	if((Input.is_action_pressed("ui_left") || isAI) && isPlayableLeftCard(cardNode)):
 		$Card9.setValue(cardNode.val)
+		poolCards.push_back(cardNode.val)
 		cardNode.visible = false
 	elif((Input.is_action_pressed("ui_right") || isAI) && isPlayableRightCard(cardNode)):
 		$Card10.setValue(cardNode.val)
+		poolCards.push_back(cardNode.val)
 		cardNode.visible = false
 	$MovementsTimer.start()
 
@@ -73,9 +76,6 @@ func handleInputs():
 					return
 				else:
 					checkWinConditions()
-					#TODO: WIN CONDITION
-					#print("YOU WIN")
-					#pause()
 
 func _input(ev):
 	if ev is InputEventKey and ev.pressed:
@@ -84,6 +84,7 @@ func _input(ev):
 				print("SPIT")
 			else:
 				print("NOT SPIT")
+			print(poolCards.size() ," cards in pool")
 		# restart game
 		if(ev.keycode == KEY_ENTER):
 			$CPUTimer.stop()
@@ -130,9 +131,6 @@ func handleAI():
 					return
 				else:
 					checkWinConditions()
-					##TODO: WIN CONDITION
-					#print("CPU WIN")
-					#pause()
 
 func _on_timer_timeout():
 	print($MovementsTimer.get_time_left()) # Replace with function body.
@@ -140,20 +138,26 @@ func _on_timer_timeout():
 func _on_movements_timer_timeout():
 		checkWinConditions()
 		if(oponentDeck):
-			$Card9.setValue(oponentDeck.pop_front())
+			var oponentDeckTopCard = oponentDeck.pop_front()
+			$Card9.setValue(oponentDeckTopCard)
+			poolCards.push_back(oponentDeckTopCard)
 		else:
 			for i in range(5, 9):
 				if(get_node("Card" + str(i)).visible):
 					$Card9.setValue(get_node("Card" + str(i)).val)
+					poolCards.push_back(get_node("Card" + str(i)).val)
 					get_node("Card" + str(i)).visible = false
 					$CPUTimer.start()
 					return
 		if(playerDeck):
-			$Card10.setValue(playerDeck.pop_front())
+			var playerDeckTopCard = playerDeck.pop_front()
+			$Card10.setValue(playerDeckTopCard)
+			poolCards.push_back(playerDeckTopCard)
 		else:
 			for i in range(1, 5):
 				if(get_node("Card" + str(i)).visible):
 					$Card10.setValue(get_node("Card" + str(i)).val)
+					poolCards.push_back(get_node("Card" + str(i)).val)
 					get_node("Card" + str(i)).visible = false
 					$CPUTimer.start()
 					return
